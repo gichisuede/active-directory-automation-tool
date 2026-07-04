@@ -28,8 +28,8 @@ $OU = 'OU=remote users,DC=corp,DC=contoso,DC=com'
 
 function Create-User {
 	$UserToCreate = Read-Host "Enter username to create"
-	$SecurePassword = Read-Host "Please enter password" -AsSecureString
-	New-ADUser -Name $UserToCreate -SamAccountName $UserToCreate -AccountPassword $SecurePassword -Path $OU -Enabled $true
+	$SecurePassword = Read-Host "Please enter temporary password" -AsSecureString
+	New-ADUser -Name $UserToCreate -SamAccountName $UserToCreate -AccountPassword $SecurePassword -Path $OU -Enabled $true -ChangePasswordAtLogon $True
 	
 	$Result = [PSCustomObject]@{
 		Time   = Get-Date
