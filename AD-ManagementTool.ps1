@@ -11,7 +11,7 @@
 	-Generate Report
 
 .NOTES
-    Author: Tony
+    Author: Tony Garza
     Project: AD User Management Tool
 #>
 
@@ -20,16 +20,23 @@
 # -----------------------------
 
 $OU = 'OU=remote users,DC=corp,DC=contoso,DC=com'
-
+$ReportPath = C:\project\destinationfolder\csv\UserManagementReport.csv
 
 # -----------------------------
 # Functions
 # -----------------------------
 
 function Create-User {
-	$UserToCreate = Read-Host "Enter username to create"
-	$SecurePassword = Read-Host "Please enter temporary password" -AsSecureString
-	New-ADUser -Name $UserToCreate -SamAccountName $UserToCreate -AccountPassword $SecurePassword -Path $OU -Enabled $true -ChangePasswordAtLogon $True
+	$UserToCreate = Read-Host "Enter username to create:"
+	$SecurePassword = Read-Host "Please enter temporary password:" -AsSecureString
+
+	New-ADUser `
+	-Name $UserToCreate `
+	-SamAccountName $UserToCreate `
+	-AccountPassword $SecurePassword `
+	-Path $OU `
+	-Enabled $true `
+	-ChangePasswordAtLogon $True
 	
 	$Result = [PSCustomObject]@{
 		Time   = Get-Date
@@ -41,8 +48,11 @@ function Create-User {
 }
 
 function Disable-User{
-	$UserToDisable = Read-Host "Enter username to disable"
-	Set-ADUser -Identity $UserToDisable -Enabled $False
+	$UserToDisable = Read-Host "Enter username to disable:"
+
+	Set-ADUser `
+	-Identity $UserToDisable `
+	-Enabled $False
 
 	$Result = [PSCustomObject]@{
 		Time	=  Get-Date
@@ -55,7 +65,9 @@ function Disable-User{
 
 function Unlock-User{
 	$UserToUnlock = Read-Host "Enter username to unlock"
-	Unlock-ADAccount -Identity $UserToUnlock 
+
+	Unlock-ADAccount `
+	-Identity $UserToUnlock 
 	
 	$Result = [PSCustomObject]@{
 		Time	=  Get-Date
@@ -67,9 +79,12 @@ function Unlock-User{
 }
 
 function AddUserTo-Group {
-	$UserToAdd = Read-Host "Please enter user to add to group"
-	$Group = Read-Host "Please enter target group"
-	Add-ADGroupMember -Identity $Group -Members $UserToAdd
+	$UserToAdd = Read-Host "Please enter username:"
+	$Group = Read-Host "Please enter target group:"
+
+	Add-ADGroupMember `
+	-Identity $Group `
+	-Members $UserToAdd
 
 	$Result = [PSCustomObject]@{
 		Time	=  Get-Date
@@ -82,8 +97,10 @@ function AddUserTo-Group {
 }
 
 function Generate-Report{
-		$ReportList | Export-Csv -Path 'C:\project\destinationfolder\csv\UserManagementReport.csv' -NoTypeInformation
-		}
+		$ReportFolder = Split-Path -Path $ReportPath
+		$ReportList | Export-Csv -Path $ReportPath -NoTypeInformation
+		Write-Host "Report has been created in $ReportFolder"
+	}
 
 
 # -----------------------------
@@ -141,4 +158,4 @@ do{
 		
 
 } until ($Choice -eq '6')
-
+##### Gitupdate
