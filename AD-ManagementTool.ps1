@@ -142,4 +142,3 @@ do{
 
 } until ($Choice -eq '6')
 
-Initial commit: Add core AD Management functions 
