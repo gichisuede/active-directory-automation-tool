@@ -20,14 +20,14 @@
 # -----------------------------
 
 $OU = 'OU=remote users,DC=corp,DC=contoso,DC=com'
-$ReportPath = C:\project\destinationfolder\csv\UserManagementReport.csv
+$ReportPath = 'C:\project\destinationfolder\csv\UserManagementReport.csv'
 
 # -----------------------------
 # Functions
 # -----------------------------
 
 function Create-User {
-	$UserToCreate = Read-Host "Enter username to create:"
+	$UserToCreate = Read-Host "Enter username to create"
 	$SecurePassword = Read-Host "Please enter temporary password:" -AsSecureString
 
 	New-ADUser `
@@ -48,7 +48,7 @@ function Create-User {
 }
 
 function Disable-User{
-	$UserToDisable = Read-Host "Enter username to disable:"
+	$UserToDisable = Read-Host "Enter username to disable"
 
 	Set-ADUser `
 	-Identity $UserToDisable `
@@ -79,8 +79,8 @@ function Unlock-User{
 }
 
 function AddUserTo-Group {
-	$UserToAdd = Read-Host "Please enter username:"
-	$Group = Read-Host "Please enter target group:"
+	$UserToAdd = Read-Host "Please enter username"
+	$Group = Read-Host "Please enter target group"
 
 	Add-ADGroupMember `
 	-Identity $Group `
